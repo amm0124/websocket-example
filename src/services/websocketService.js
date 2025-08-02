@@ -5,7 +5,14 @@ import { memo } from 'react';
 let stompClient = null;
 
 export function connectWebSocket(token, uuid, onConnectCallback) {
-  const socket = new SockJS(`http://localhost:9011/ws/execution?uuid=${encodeURIComponent(uuid)}`);
+
+  console.log('WebSocket 연결 시도 중...');
+  console.log('토큰:', token);
+  console.log('UUID:', uuid);
+  console.log ("encoded : ", encodeURIComponent(uuid));
+
+  //const socket = new SockJS(`http://localhost:9012/ws/execution?uuid=${encodeURIComponent(uuid)}`);
+  const socket = new SockJS(`https://debug.on-co.net/ws/execution?uuid=${encodeURIComponent(uuid)}`);
 
   stompClient = new Client({
     webSocketFactory: () => socket,

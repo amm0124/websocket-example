@@ -66,42 +66,170 @@ function LoginForm() {
   const handleRequestExecutionInit = async () => {
     try {
 
-        const body = {
-          "projectName": "C Hello World",
-          "description": "onco 코딩 프로젝트 설명",
-          "entryPoint": "main.c",
-          "fileStructures": [
-            {
-              "fileName": "main.c",
-              "type": "FILE",
-              "sourceCode": "#include <stdio.h>\n#include \"utils/helper.h\"\n\nint main() {\n    char name[100];\n    printf(\"이름을 입력하세요: \");\n    fgets(name, sizeof(name), stdin);\n    printf(\"안녕하세요, %s!\\n\", name);\n\n    char msg[256];\n    get_user_input(msg, sizeof(msg));\n    greet(msg);\n\n    return 0;\n}"
-            },
-            {
-              "fileName": "utils",
-              "type": "DIRECTORY",
-              "children": [
-                {
-                  "fileName": "helper.h",
-                  "type": "FILE",
-                  "sourceCode": "#ifndef HELPER_H\n#define HELPER_H\n\nvoid get_user_input(char* buffer, int size);\nvoid greet(const char* message);\n\n#endif"
-                },
-                {
-                  "fileName": "helper.c",
-                  "type": "FILE",
-                  "sourceCode": "#include \"helper.h\"\n#include <stdio.h>\n\nvoid get_user_input(char* buffer, int size) {\n    printf(\"메시지를 입력하세요: \");\n    fgets(buffer, size, stdin);\n}\n\nvoid greet(const char* message) {\n    printf(\"입력하신 메시지: %s\\n\", message);\n}"
-                }
-              ]
-            }
-          ],
-          "settings": {
-            "languageId": 12,
-            "timeoutSeconds": 1200,
-            "memoryLimitMB": 512
+
+      const body = {
+        "projectName": "C Hello World",
+        "description": "onco 코딩 프로젝트 설명",
+        "entryPoint": "main.c",
+        "fileStructures": [
+          {
+            "fileName": "main.c",
+            "type": "FILE",
+            "sourceCode": "#include <stdio.h>\n#include <stdlib.h>\n#include \"utils/helper.h\"\n\nint main() {\n    char name[100];\n    printf(\"이름을 입력하세요: \");\n    fgets(name, sizeof(name), stdin);\n    \n    // 개행 문자 제거\n    name[strcspn(name, \"\\n\")] = 0;\n    \n    printf(\"안녕하세요, %s!\\n\", name);\n    \n    char* msg = get_user_input();\n    greet(msg);\n    \n    free(msg);\n    return 0;\n}"
+          },
+          {
+            "fileName": "utils",
+            "type": "DIRECTORY",
+            "children": [
+              {
+                "fileName": "helper.h",
+                "type": "FILE",
+                "sourceCode": "#ifndef HELPER_H\n#define HELPER_H\n\n#include <string.h>\n\nchar* get_user_input();\n                 void greet(const char* meㅇㅇㄴㅊㄴㄹㄴㄹ.'ㄴㄹ.ㅠssage);\n\n#endif"
+              },
+              {
+                "fileName": "helper.c",
+                "type": "FILE",
+                "sourceCode": "#include \"helper.h\"\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n\nchar* get_user_input() {\n    char* buffer = (char*)malloc(256 * sizeof(char));\n    if (buffer == NULL) {\n        printf(\"메모리 할당 실패\\n\");\n        return NULL;\n    }\n    \n    printf(\"메시지를 입력하세요: \");\n    fgets(buffer, 256, stdin);\n    \n    // 개행 문자 제거\n    buffer[strcspn(buffer, \"\\n\")] = 0;\n    \n    return buffer;\n}\n\nvoid greet(const char* message) {\n    printf(\"입력하신 메시지: %s\\n\", message);\n}"
+              }
+            ]
           }
-        }
+        ],
+        "settings": {
+              "languageId": 12,
+              "timeoutMs": 300000.0,
+              "memoryLimitMB": 512.0
+            }
+      }
+
+      // const body = {
+      //   "projectName": "C++ Hello World",
+      //   "description": "onco 코딩 프로젝트 설명 (C++ 버전)",
+      //   "entryPoint": "main.cpp",
+      //   "fileStructures": [
+      //     {
+      //       "fileName": "main.cpp",
+      //       "type": "FILE",
+      //       "sourceCode": "#include <iostream>\n#include <string>\n#include \"utils/helper.h\"\n\nint main() {\n    std::string name;\n    std::cout << \"이름을 입력하세요: \";\n    std::getline(std::cin, name);\n    \n    std::cout << \"안녕하세요, \" << name << \"!\" << std::endl;\n    \n    std::string msg = get_user_input();\n    greet(msg);\n    \n    return 0;\n}"
+      //     },
+      //     {
+      //       "fileName": "utils",
+      //       "type": "DIRECTORY",
+      //       "children": [
+      //         {
+      //           "fileName": "helper.h",
+      //           "type": "FILE",
+      //           "sourceCode": "#ifndef HELPER_H\n#define HELPER_H\n\n#include <string>\n\nstd::string get_user_input();\nvoid greet(const std::string& message);\n\n#endif"
+      //         },
+      //         {
+      //           "fileName": "helper.cpp",
+      //           "type": "FILE",
+      //           "sourceCode": "#include \"helper.h\"\n#include <iostream>\n#include <string>\n\nstd::string get_user_input() {\n    std::string buffer;\n    std::cout << \"메시지를 입력하세요: \";\n    std::getline(std::cin, buffer);\n    \n    return buffer;\n}\n\nvoid greet(const std::string& message) {\n    std::cout << \"입력하신 메시지: \" << message << std::endl;\n}"
+      //         }
+      //       ]
+      //     }
+      //   ],
+      // "settings": {
+      //   "languageId": 18,
+      //       "timeoutMs": 300000.0,
+      //       "memoryLimitMB": 512.0
+      // }
+      //  }
+
+
+      // const body = {
+      //   "projectName": "JavaScript Hello World",
+      //   "description": "onco 코딩 프로젝트 설명 (JavaScript 버전)",
+      //   "entryPoint": "main.js",
+      //   "fileStructures": [
+      //     {
+      //       "fileName": "main.js",
+      //       "type": "FILE",
+      //       "sourceCode": "const readline = require('readline');\nconst { getUserInput, greet } = require('./utils/helper');\n\nconst rl = readline.createInterface({\n    input: process.stdin,\n    output: process.stdout\n});\n\n(async function() {\n    console.log('안녕하세요!');\n    const name = await getUserInput(rl, '이름을 입력하세요: ');\n    console.log(`안녕하세요, ${name}!`);\n    \n    const message = await getUserInput(rl, '메시지를 입력하세요: ');\n    greet(message);\n    \n    rl.close();\n})();"
+      //     },
+      //     {
+      //       "fileName": "utils",
+      //       "type": "DIRECTORY",
+      //       "children": [
+      //         {
+      //           "fileName": "helper.js",
+      //           "type": "FILE",
+      //           "sourceCode": "function getUserInput(rl, prompt) {\n    return new Promise((resolve) => {\n        rl.question(prompt, (answer) => {\n            resolve(answer);\n        });\n    });\n}\n\nfunction greet(message) {\n    console.log(`입력하신 메시지: ${message}`);\n}\n\nmodule.exports = {\n    getUserInput,\n    greet\n};"
+      //         }
+      //       ]
+      //     }
+      //   ],
+      //   "settings": {
+      //     "languageId": 26,
+      //     "timeoutSeconds": 1200,
+      //     "memoryLimitMB": 512
+      //   }
+      // }
+
+      // const body = {
+      //   "projectName": "Java Hello World",
+      //   "description": "onco 코딩 프로젝트 설명 (Java 버전)",
+      //   "entryPoint": "Main.java",
+      //   "fileStructures": [
+      //     {
+      //       "fileName": "Main.java",
+      //       "type": "FILE",
+      //       "sourceCode": "import java.util.Scanner;\nimport utils.Helper;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        \n        System.out.print(\"이름을 입력하세요: \");\n        String name = scanner.nextLine();\n        \n        System.out.println(\"안녕하세요, \" + name + \"!\");\n        \n        String msg = Helper.getUserInput(scanner);\n        Helper.greet(msg);\n        \n        scanner.close();\n    }\n}"
+      //     },
+      //     {
+      //       "fileName": "utils",
+      //       "type": "DIRECTORY",
+      //       "children": [
+      //         {
+      //           "fileName": "Helper.java",
+      //           "type": "FILE",
+      //           "sourceCode": "package utils;\n\nimport java.util.Scanner;\n\npublic class Helper {\n    public static String getUserInput(Scanner scanner) {\n        System.out.print(\"메시지를 입력하세요: \");\n        return scanner.nextLine();\n    }\n    \n    public static void greet(String message) {\n        System.out.println(\"입력하신 메시지: \" + message);\n    }\n}"
+      //         }
+      //       ]
+      //     }
+      //   ],
+      //
+      //   "settings": {
+      //         "languageId": 23,
+      //         "timeoutMs": 300000.0,
+      //         "memoryLimitMB": 512.0
+      //       }
+      // }
+
+
+
+      //
+      // const body = {
+      //   "projectName": "Python Hello World",
+      //   "description": "onco 코딩 프로젝트 설명",
+      //   "entryPoint": "main.py",
+      //   "fileStructures": [
+      //     {
+      //       "fileName": "main.py",
+      //       "type": "FILE",
+      //       "sourceCode": "from utils.helper import get_user_input, greet\n\ndef main():\n    name = input(\"이름을 입력하세요: \")\n    print(f\"안녕하세요, {name}!\")\n\n    msg = get_user_input()\n    greet(msg)\n\nif __name__ == \"__main__\":\n    main()"
+      //     },
+      //     {
+      //       "fileName": "utils",
+      //       "type": "DIRECTORY",
+      //       "children": [
+      //         {
+      //           "fileName": "helper.py",
+      //           "type": "FILE",
+      //           "sourceCode": "def get_user_input():\n    return input(\"메시지를 입력하세요: \")\n\ndef greet(message):\n    print(f\"입력하신 메시지: {message}\")"
+      //         }
+      //       ]
+      //     }
+      //   ],
+      //   "settings": {
+      //     "languageId": 5,
+      //     "timeoutMs": 300000.0,
+      //     "memoryLimitMB": 512.0
+      //   }
+      // }
 
 
       const result = await requestExecutionInit(body, token);
+      console.log(JSON.stringify(result, null, 2));
       console.log('실행 초기화 요청 성공:', result);
 
       setExecutionId(result.uuid);
